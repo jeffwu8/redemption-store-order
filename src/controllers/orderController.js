@@ -1,35 +1,44 @@
-var routes = require("express").Router();
-var accepts = require("accepts");
-var js2xmlparser = require("js2xmlparser");
+const routes = require("express").Router();
+const accepts = require("accepts");
+const js2xmlparser = require("js2xmlparser");
 
-var orderDao = require("../dao/orderDao");
+const orderDao = require("../dao/orderDao");
+const orderService = require("../services/orderService");
 
 routes.get("/orders", function(request, response) {
   const accept = accepts(request);
 
-  orderDao
-    .readAllOrders()
-    .then(results => {
-      switch (accept.type(["json", "xml"])) {
-        case "json":
-          response.setHeader("Content-Type", "application/json");
-          response.status(200);
-          response.send(results);
-          break;
-        case "xml":
-          response.setHeader("Content-Type", "application/xml");
-          response.status(200);
-          response.send(js2xmlparser.parse("orders", results));
-          break;
-        default:
-          response.status(406);
+  orderService
+    .authorize(request)
+    .then(() => {
+      orderDao
+        .readAllOrders()
+        .then(results => {
+          switch (accept.type(["json", "xml"])) {
+            case "json":
+              response.setHeader("Content-Type", "application/json");
+              response.status(200);
+              response.send(results);
+              break;
+            case "xml":
+              response.setHeader("Content-Type", "application/xml");
+              response.status(200);
+              response.send(js2xmlparser.parse("orders", results));
+              break;
+            default:
+              response.status(406);
+              response.send();
+              break;
+          }
+        })
+        .catch(error => {
+          response.status(404);
           response.send();
-          break;
-      }
+        });
     })
     .catch(error => {
-      response.status(404);
-      response.send("Not Found");
+      response.status(401);
+      response.send();
     });
 });
 
@@ -79,15 +88,15 @@ routes.post("/orders", function(request, response) {
 routes.put("/orders/:id", function(request, response) {
   var order = request.body;
   orderDao
-  .updateOrder(request.params.id, order)
-  .then(results => {
-    response.status(204);
-    response.send();
-  })
-  .catch(error => {
-    response.status(400);
-    response.send();
-  });
+    .updateOrder(request.params.id, order)
+    .then(results => {
+      response.status(204);
+      response.send();
+    })
+    .catch(error => {
+      response.status(400);
+      response.send();
+    });
 });
 
 routes.delete("/orders/:id", function(request, response) {

@@ -1,4 +1,4 @@
-var db = require("./db");
+const db = require("./db");
 
 exports.readAllOrders = () =>
   new Promise((resolve, reject) => {
