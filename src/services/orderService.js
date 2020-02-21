@@ -1,16 +1,14 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 exports.authorize = request =>
   new Promise((resolve, reject) => {
-    dotenv.config();
-
-    console.log("Starting Authorization");
+    
     let token = request.headers["x-access-token"] || request.headers['authorization'];
 
     try {
       if (!token) {
-        throw "Invalid Token";
+        throw "No Token Provided";
       }
     } catch (error) {
       return reject(error);
@@ -22,7 +20,6 @@ exports.authorize = request =>
 
     jwt.verify(token, process.env.SECRET, (err, decoded) => {
       if (err) {
-        console.log("Invalid Token");
         return reject(err);
       }
       return resolve(decoded);
