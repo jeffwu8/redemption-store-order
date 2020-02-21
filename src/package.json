@@ -1,7 +1,7 @@
 {
   "name": "order-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Order API for Wu, Raulin & Co.",
   "main": "main.js",
   "dependencies": {
     "bluebird": "^3.5.1",

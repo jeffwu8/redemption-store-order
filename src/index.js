@@ -1,10 +1,7 @@
 const bodyParser = require("body-parser");
-const dotenv = require('dotenv');
 const express = require("express");
 const app = express();
-
-//Setup Environment
-dotenv.config();
+require('dotenv').config();
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
