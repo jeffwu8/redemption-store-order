@@ -106,7 +106,7 @@ routes.delete("/orders/:id", function(request, response) {
       response.status(204);
       response.send();
     })
-    .catch(error => {
+    .catch(error => { 
       response.status(400);
       response.send();
     });
