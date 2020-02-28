@@ -1,3 +1,4 @@
+<<<<<<< 79f497bff80b7707ea11b1b81518d01668663670
 # Logs
 logs
 *.log
@@ -104,3 +105,10 @@ dist
 .tern-port
 
 .vscode/
+=======
+node_modules
+build
+npm-debug.log
+.env
+.DS_Store
+>>>>>>> gitignore
