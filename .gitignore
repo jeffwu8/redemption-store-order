@@ -1,0 +1,6 @@
+.*
+!/.gitignore
+src/node_modules/*
+src/package-lock.json
+src/sonar-project.js
+Dockerfile
