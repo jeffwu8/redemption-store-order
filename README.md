@@ -1,1 +1,1 @@
-# redemption-store-order
+# Order API for the GC Fashion Store
